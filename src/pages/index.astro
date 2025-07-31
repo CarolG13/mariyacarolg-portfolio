@@ -1,13 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { PERSONAL_INFO } from '../data/site';
-import { getCollection } from 'astro:content';
+import Layout from "../layouts/Layout.astro";
+import { PERSONAL_INFO } from "../data/site";
+import { getCollection } from "astro:content";
 
 // This line gets all entries from your 'projects' folder and sorts them by date
-const projects = (await getCollection('projects')).sort(
-  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
 );
 ---
+
 <Layout title={`Home | ${PERSONAL_INFO.name}`}>
   <main class="flex-grow">
     <!-- HERO SECTION (This part is the same as before) -->
@@ -15,30 +16,46 @@ const projects = (await getCollection('projects')).sort(
       <h1 class="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl">
         {PERSONAL_INFO.name}
       </h1>
-      <p class="mt-4 mx-auto max-w-[700px] text-lg text-gray-500 md:text-xl dark:text-gray-400">
+      <p
+        class="mt-4 mx-auto max-w-[700px] text-lg text-gray-500 md:text-xl dark:text-gray-400"
+      >
         {PERSONAL_INFO.tagline}
       </p>
     </section>
 
-    <!-- PROJECTS SECTION (This is the new part we are adding) -->
+    <!-- PROJECTS SECTION (Updated with links) -->
     <section id="projects" class="py-20 px-8 bg-gray-50 dark:bg-gray-800">
       <h2 class="text-3xl font-bold text-center mb-8">My Work</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+      >
         {
           projects.map((project) => (
-            <div class="border rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-900">
-              <!-- The image will appear broken for now. This is correct. -->
-              <img src={project.data.img} alt={project.data.img_alt} class="w-full h-48 object-cover" />
+            // THE CHANGE IS HERE: This is now an <a> tag that links to the project's detail page
+            <a
+              href={`/projects/${project.slug}/`}
+              class="block border rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-900 hover:scale-105 transition-transform"
+            >
+              {/* The image will appear broken for now. This is correct. */}
+              <img
+                src={project.data.img}
+                alt={project.data.img_alt}
+                class="w-full h-48 object-cover"
+              />
               <div class="p-4">
                 <h3 class="font-bold text-lg">{project.data.title}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 h-16">{project.data.description}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 h-16">
+                  {project.data.description}
+                </p>
                 <div class="mt-4 flex flex-wrap gap-2">
                   {project.data.tags.map((tag) => (
-                    <span class="text-xs bg-gray-200 dark:bg-gray-700 rounded-full px-2 py-1">{tag}</span>
+                    <span class="text-xs bg-gray-200 dark:bg-gray-700 rounded-full px-2 py-1">
+                      {tag}
+                    </span>
                   ))}
                 </div>
               </div>
-            </div>
+            </a>
           ))
         }
       </div>
