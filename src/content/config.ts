@@ -2,7 +2,6 @@
 import { defineCollection, z } from 'astro:content';
 
 const projectsCollection = defineCollection({
-  // This is the "schema" - the rules for your project data
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -13,6 +12,17 @@ const projectsCollection = defineCollection({
   }),
 });
 
+// NEW BLOG COLLECTION
+const blogCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.date(),
+    author: z.string(),
+  }),
+});
+
 export const collections = {
   'projects': projectsCollection,
+  'blog': blogCollection, // <-- ADD THIS
 };

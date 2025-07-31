@@ -1,52 +1,48 @@
 ---
-// Import your global styles
 import "../styles/global.css";
-
-// Import the components you want to use
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE_DESCRIPTION } from "../data/site";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../data/site";
 
-// This is the TypeScript interface for props
 interface Props {
-	title: string;
+	title?: string; // Title is now optional
+	description?: string; // Description is now optional
 }
 
-// This gets the title passed from the page (e.g., index.astro)
-const { title } = Astro.props;
+const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content={SITE_DESCRIPTION} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
 
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+	</head>
 	<body
 		class="flex flex-col min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-50"
 	>
 		<Header />
-		<!-- Use the Header component here -->
-
 		<slot />
-		<!-- Your main page content will go here -->
-
 		<Footer />
-		<!-- Use the Footer component here -->
 	</body>
 </html>
-
-<style is:global>
-	/* You can keep global styles here if you want, but global.css is better */
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
