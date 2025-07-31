@@ -3,7 +3,7 @@ title: 'Marketing Campaign Analysis'
 publishDate: 2024-05-20
 description: 'An in-depth analysis of a recent marketing campaign to identify key drivers of success and areas for improvement.'
 tags: ['Data Analysis', 'Python', 'Pandas', 'Matplotlib']
-img: '/project-1.webp'
+img: '/project-1.jpg'
 img_alt: 'A screenshot of a data dashboard showing charts and graphs.'
 ---
 
