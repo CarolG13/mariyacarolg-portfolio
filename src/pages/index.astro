@@ -3,15 +3,17 @@ import Layout from "../layouts/Layout.astro";
 import { PERSONAL_INFO } from "../data/site";
 import { getCollection } from "astro:content";
 
-// This line gets all entries from your 'projects' folder and sorts them by date
 const projects = (await getCollection("projects")).sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
 );
+
+// Get the access key from the .env file
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
 ---
 
 <Layout title={`Home | ${PERSONAL_INFO.name}`}>
   <main class="flex-grow">
-    <!-- HERO SECTION (This part is the same as before) -->
+    <!-- HERO SECTION -->
     <section id="hero" class="text-center py-20">
       <h1 class="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl">
         {PERSONAL_INFO.name}
@@ -23,7 +25,7 @@ const projects = (await getCollection("projects")).sort(
       </p>
     </section>
 
-    <!-- PROJECTS SECTION (Updated with links) -->
+    <!-- PROJECTS SECTION -->
     <section id="projects" class="py-20 px-8 bg-gray-50 dark:bg-gray-800">
       <h2 class="text-3xl font-bold text-center mb-8">My Work</h2>
       <div
@@ -31,12 +33,10 @@ const projects = (await getCollection("projects")).sort(
       >
         {
           projects.map((project) => (
-            // THE CHANGE IS HERE: This is now an <a> tag that links to the project's detail page
             <a
               href={`/projects/${project.slug}/`}
               class="block border rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-900 hover:scale-105 transition-transform"
             >
-              {/* The image will appear broken for now. This is correct. */}
               <img
                 src={project.data.img}
                 alt={project.data.img_alt}
@@ -58,6 +58,66 @@ const projects = (await getCollection("projects")).sort(
             </a>
           ))
         }
+      </div>
+    </section>
+
+    <!-- ABOUT & CONTACT SECTION (New!) -->
+    <section id="about" class="py-20 px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">About Me</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+          {PERSONAL_INFO.bio}
+        </p>
+      </div>
+      <div class="max-w-xl mx-auto mt-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Get In Touch</h2>
+        <form
+          action="https://api.web3forms.com/submit"
+          method="POST"
+          class="space-y-4"
+        >
+          <input type="hidden" name="access_key" value={web3formsKey} />
+          <div>
+            <label for="name" class="block mb-2 text-sm font-medium"
+              >Your Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="w-full p-2.5 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+              required
+            />
+          </div>
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium"
+              >Your Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full p-2.5 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+              required
+            />
+          </div>
+          <div>
+            <label for="message" class="block mb-2 text-sm font-medium"
+              >Your Message</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              class="w-full p-2.5 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+              required></textarea>
+          </div>
+          <button
+            type="submit"
+            class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >Send Message</button
+          >
+        </form>
       </div>
     </section>
   </main>
