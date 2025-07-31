@@ -1,0 +1,15 @@
+---
+// src/components/Header.astro
+import { SITE_TITLE } from "../data/site";
+---
+
+<header class="flex justify-between items-center py-4 px-8 border-b">
+  <a href="/" class="text-lg font-bold">
+    {SITE_TITLE.split("|")[0]}
+    <!-- This shows just your name -->
+  </a>
+  <nav class="hidden md:flex gap-4">
+    <a href="/#projects" class="hover:underline">Projects</a>
+    <a href="/blog" class="hover:underline">Blog</a>
+  </nav>
+</header>

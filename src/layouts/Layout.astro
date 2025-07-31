@@ -1,8 +1,18 @@
 ---
-import '../styles/global.css'; // Add this line
+// Import your global styles
+import "../styles/global.css";
+
+// Import the components you want to use
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_DESCRIPTION } from "../data/site";
+
+// This is the TypeScript interface for props
 interface Props {
 	title: string;
 }
+
+// This gets the title passed from the page (e.g., index.astro)
 const { title } = Astro.props;
 ---
 
@@ -10,17 +20,29 @@ const { title } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+		<meta name="description" content={SITE_DESCRIPTION} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
 	</head>
-	<body>
+
+	<body
+		class="flex flex-col min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-50"
+	>
+		<Header />
+		<!-- Use the Header component here -->
+
 		<slot />
+		<!-- Your main page content will go here -->
+
+		<Footer />
+		<!-- Use the Footer component here -->
 	</body>
 </html>
 
-<style>
+<style is:global>
+	/* You can keep global styles here if you want, but global.css is better */
 	html,
 	body {
 		margin: 0;
