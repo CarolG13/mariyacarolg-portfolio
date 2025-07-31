@@ -1,11 +1,25 @@
 ---
-import Welcome from '../components/Welcome.astro';
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { PERSONAL_INFO } from '../data/site';
 ---
-
-<Layout>
-	<Welcome />
+<Layout title="Home">
+  <main>
+    <section id="hero" class="text-center py-20">
+      <h1 class="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl">
+        {PERSONAL_INFO.name}
+      </h1>
+      <p class="mt-4 mx-auto max-w-[700px] text-lg text-gray-500 md:text-xl dark:text-gray-400">
+        {PERSONAL_INFO.tagline}
+      </p>
+      <div class="mt-6">
+        <a
+          href="#projects"
+          class="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90"
+        >
+          View My Work
+        </a>
+      </div>
+    </section>
+  </main>
 </Layout>
