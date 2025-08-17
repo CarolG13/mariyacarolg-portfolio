@@ -13,8 +13,8 @@ const includedRepos = [
   "feedback-collector-analyzer-apps-script",
 ];
 
-// Fetch all GitHub repos
-const allProjects = await fetchGitHubRepos();
+// Fetch all GitHub repos (ensure it's always an array)
+const allProjects = (await fetchGitHubRepos()) || [];
 
 // Filter only the included repos
 const projects = allProjects.filter((repo) =>
@@ -46,7 +46,7 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
       >
         {
-          projects.map((project) => (
+          projects?.map((project) => (
             <a
               href={project.github}
               target="_blank"
