@@ -2,7 +2,16 @@ export async function fetchGitHubRepos() {
   const username = import.meta.env.GITHUB_USERNAME;
   const token = import.meta.env.GITHUB_TOKEN;
 
-  const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated`, {
+  const includedRepos = [
+    "sales-data-pipeline",
+    "customer_analytics_dashboard",
+    "AI-Content_Analyzer",
+    "mariyacarolg-portfolio",
+    "Snake-game",
+    "feedback-collector-analyzer-apps-script"
+  ];
+
+  const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, {
     headers: {
       Authorization: `token ${token}`
     }
@@ -14,12 +23,16 @@ export async function fetchGitHubRepos() {
   }
 
   const data = await res.json();
-  return data.map(repo => ({
+
+  // Filter only the repos in includedRepos
+  const filtered = data.filter(repo => includedRepos.includes(repo.name));
+
+  return filtered.map(repo => ({
     title: repo.name,
     description: repo.description || "No description",
     github: repo.html_url,
-    tags: [],
-    img: "/images/github-placeholder.png",
+    tags: [], // add tags if you want
+    img: `/images/${repo.name}.png`, // optional: custom screenshots
     publishDate: new Date(repo.updated_at)
   }));
 }
