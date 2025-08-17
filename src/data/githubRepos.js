@@ -5,7 +5,7 @@ export async function fetchGitHubRepos() {
   const includedRepos = [
     "sales-data-pipeline",
     "customer_analytics_dashboard",
-    "AI-Content_Analyzer",
+    "AI-Content-Analyzer",
     "mariyacarolg-portfolio",
     "Snake-game",
     "feedback-collector-analyzer-apps-script"
