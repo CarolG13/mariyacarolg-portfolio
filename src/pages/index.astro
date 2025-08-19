@@ -3,23 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import { PERSONAL_INFO } from "../data/site";
 import { fetchGitHubRepos } from "../data/githubRepos.js";
 
-// List of GitHub repos to include
-const includedRepos = [
-  "sales-data-pipeline",
-  "customer_analytics_dashboard",
-  "AI-Content-Analyzer",
-  "mariyacarolg-portfolio",
-  "Snake-game",
-  "feedback-collector-analyzer-apps-script",
-];
-
-// Fetch all GitHub repos (ensure it's always an array)
-const allProjects = (await fetchGitHubRepos()) || [];
-
-// Filter only the included repos
-const projects = allProjects.filter((repo) =>
-  includedRepos.includes(repo.title)
-);
+// Fetch only the repos we care about
+const projects = await fetchGitHubRepos();
 
 // Get the access key from the .env file
 const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
